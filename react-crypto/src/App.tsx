@@ -2,16 +2,8 @@ import React from 'react';
 import { Layout } from 'antd';
 import { AppHeader } from './components/layout/AppHeader';
 import { AppSider } from './components/layout/AppSider';
+import { AppContant } from './components/layout/AppContent';
 
-
-
-const contentStyle: React.CSSProperties = {
-  textAlign: 'center',
-  minHeight: 120,
-  lineHeight: '120px',
-  color: '#fff',
-  backgroundColor: '#0958d9',
-};
 
 const footerStyle: React.CSSProperties = {
   textAlign: 'center',
@@ -25,7 +17,7 @@ function App() {
       <AppHeader />
       <Layout>
         <AppSider />
-        <Layout.Content style={contentStyle}>Content</Layout.Content>
+        <AppContant />
       </Layout>
       <Layout.Footer style={footerStyle}>Footer</Layout.Footer>
     </Layout>
