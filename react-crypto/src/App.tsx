@@ -4,13 +4,6 @@ import { AppHeader } from './components/layout/AppHeader';
 import { AppSider } from './components/layout/AppSider';
 import { AppContant } from './components/layout/AppContent';
 
-
-const footerStyle: React.CSSProperties = {
-  textAlign: 'center',
-  color: '#fff',
-  backgroundColor: '#4096ff',
-};
-
 function App() {
   return (
     <Layout>
@@ -19,7 +12,6 @@ function App() {
         <AppSider />
         <AppContant />
       </Layout>
-      <Layout.Footer style={footerStyle}>Footer</Layout.Footer>
     </Layout>
   );
 }
