@@ -1,5 +1,6 @@
 import React from 'react';
 import { Layout } from 'antd';
+import { AppHeader } from './components/layout/AppHeader';
 
 
 const headerStyle: React.CSSProperties = {
@@ -35,7 +36,7 @@ const footerStyle: React.CSSProperties = {
 function App() {
   return (
     <Layout>
-      <Layout.Header style={headerStyle}>Header</Layout.Header>
+      <AppHeader />
       <Layout>
         <Layout.Sider width='25%' style={siderStyle}>
         Sider
