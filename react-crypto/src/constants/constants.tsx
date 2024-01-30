@@ -1,4 +1,41 @@
-export const cryptoData = {
+type ItemType = {
+    id: string,
+    icon: string,
+    name: string,
+    symbol: string,
+    rank: number,
+    price: number,
+    priceBtc: number,
+    volume: number,
+    marketCap: number,
+    availableSupply:number,
+    totalSupply: number,
+    priceChange1h: number,
+    priceChange1d: number,
+    priceChange1w: number,
+    redditUrl: string,
+    websiteUrl: string,
+    twitterUrl: string,
+    contractAddress: string,
+    decimals: number,
+    explorers: Array<string>
+}
+
+type MetaType = {
+    page: number,
+    limit: number,
+    itemCount: number,
+    pageCount: number,
+    hasPreviousPage: boolean,
+    hasNextPage: boolean,
+}
+
+type CryptoDataType = {
+    result: Array<ItemType>   ,
+    meta: MetaType
+}
+
+export const cryptoData: CryptoDataType = {
   result: [
     {
       id: 'bitcoin',
@@ -18,6 +55,8 @@ export const cryptoData = {
       redditUrl: 'https://www.reddit.com/r/Bitcoin/',
       websiteUrl: 'http://www.bitcoin.org',
       twitterUrl: 'https://twitter.com/bitcoin',
+      contractAddress: '0x1d2f0da169ceb9fc7b3144628db156f3f6c60dbe',
+      decimals: 18,
       explorers: [
         'https://blockchair.com/bitcoin/',
         'https://btc.com/',
