@@ -56,28 +56,29 @@ export const AppSider = () => {
   }
   return (
     <Layout.Sider width='25%' style={siderStyle}>
-      {assets.map((item: CardAssetType) => (
-        <Card key={item.id} style={{marginBottom: '1rem'}}>
+      {assets.map((asset: CardAssetType) => (
+        <Card key={asset.id} style={{marginBottom: '1rem'}}>
           <Statistic
-            title={item.id}
-            value={item.totalAnount}
+            title={asset.id}
+            value={asset.totalAnount}
             precision={2}
-            valueStyle={{ color: item.grow ? '#3f8600' : '#cf1322' }}
-            prefix={item.grow ? <ArrowUpOutlined /> : <ArrowDownOutlined />}
+            valueStyle={{ color: asset.grow ? '#3f8600' : '#cf1322' }}
+            prefix={asset.grow ? <ArrowUpOutlined /> : <ArrowDownOutlined />}
             suffix='$'
           />
           <List
             size='small'
             bordered
             dataSource={[
-              { title: 'Total Profit', value: item.totalProfit },
-              { title: 'Asset Amount', value: item.amount },
-              { title: 'Difference', value: item.growPrecent },
+              { title: 'Total Profit', value: asset.totalProfit },
+              { title: 'Asset Amount', value: asset.amount, isPlant: true },
+              { title: 'Difference', value: asset.growPrecent },
             ]}
             renderItem={(item) => (
               <List.Item>
                 <span>{item.title}</span>
-                <span>{item.value.toString()}</span>
+                {item.isPlant && <span>{Number(item.value)}</span>}
+                {!item.isPlant && <Typography.Text type={asset.grow ? 'success' : 'danger'}>{Number(item.value).toFixed(2)}</Typography.Text>}
               </List.Item>
             )}
           />
