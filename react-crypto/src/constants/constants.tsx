@@ -1,4 +1,4 @@
-type ItemType = {
+export type ItemType = {
     id: string,
     icon: string,
     name: string,
@@ -21,7 +21,7 @@ type ItemType = {
     explorers: Array<string>
 }
 
-type MetaType = {
+export type MetaType = {
     page: number,
     limit: number,
     itemCount: number,
@@ -30,9 +30,16 @@ type MetaType = {
     hasNextPage: boolean,
 }
 
-type CryptoDataType = {
+export type CryptoDataType = {
     result: Array<ItemType>   ,
     meta: MetaType
+}
+
+export type AssetItemType = {
+    id: string,
+    amount: number,
+    price: number,
+    date: Date,
 }
 
 export const cryptoData: CryptoDataType = {
@@ -648,7 +655,7 @@ export const cryptoData: CryptoDataType = {
   },
 };
   
-export const cryptoAssets = [
+export const cryptoAssets: Array<AssetItemType> = [
   {
     id: 'bitcoin',
     amount: 0.02,

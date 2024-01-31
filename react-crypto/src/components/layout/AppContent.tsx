@@ -3,11 +3,15 @@ import { Layout } from 'antd';
 
 const contentStyle: React.CSSProperties = {
   textAlign: 'center',
-  minHeight: 120,
-  lineHeight: '120px',
+  minHeight: 'calc(100vh - 60px)',
   color: '#fff',
   backgroundColor: '#0958d9',
 };
 export const AppContant = () => {
-  return <Layout.Content style={contentStyle}>Content</Layout.Content>;
+  return (
+    <Layout.Content style={contentStyle}>
+        Content
+    </Layout.Content>
+  );
+
 };
