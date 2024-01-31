@@ -5,6 +5,17 @@ import { fakeFetchCryptoAssets, fakeFetchCryptoData } from '../../api';
 import { ItemType, AssetItemType } from '../../constants/constants';
 import { precentDifference } from '../../utils';
 
+type CardAssetType = {
+  grow: number,
+  growPrecent: (a: number, b: number) => number,
+  totalAnount: number,
+  totalProfit: number,
+  id: string,
+  amount: number,
+  price: number,
+  date: Date,
+}
+
 const siderStyle: React.CSSProperties = {
   textAlign: 'center',
   lineHeight: '120px',
@@ -12,19 +23,10 @@ const siderStyle: React.CSSProperties = {
   backgroundColor: '#1677ff',
 };
 
-const data = [
-  'Racing car sprays burning fuel into crowd.',
-  'Japanese princess to wed commoner.',
-  'Australian walks 100km after outback crash.',
-  'Man charged over missing wedding girl.',
-  'Los Angeles battles huge wildfires.',
-];
-
-
 export const AppSider = () => {
   const [loading, setLoading] = useState<boolean>(false);
-  const [crypto, setCrypto] = useState<Array<ItemType>>([]);
-  const [assets, setAssets] = useState<Array<AssetItemType>>([]);
+  const [crypto, setCrypto] = useState([]);
+  const [assets, setAssets] = useState([]);
   useEffect(() => {
     async function prelode() {
       setLoading(true);
@@ -37,7 +39,10 @@ export const AppSider = () => {
           growPrecent: precentDifference(item.price, coin.price),
           totalAnount: item.amount * coin.price,
           totalProfit: item.amount * coin.price - item.amount * item.price,
-          ...item
+          id: item.id,
+          amount: item.amount,
+          price: item.price,
+          date: new Date(),
         };
       }));
       setCrypto(result);
@@ -51,23 +56,28 @@ export const AppSider = () => {
   }
   return (
     <Layout.Sider width='25%' style={siderStyle}>
-      {assets.map((item) => (
+      {assets.map((item: CardAssetType) => (
         <Card key={item.id} style={{marginBottom: '1rem'}}>
           <Statistic
-            title='Active'
-            value={11.28}
+            title={item.id}
+            value={item.totalAnount}
             precision={2}
-            valueStyle={{ color: '#3f8600' }}
-            prefix={<ArrowUpOutlined />}
-            suffix='%'
+            valueStyle={{ color: item.grow ? '#3f8600' : '#cf1322' }}
+            prefix={item.grow ? <ArrowUpOutlined /> : <ArrowDownOutlined />}
+            suffix='$'
           />
           <List
             size='small'
             bordered
-            dataSource={data}
+            dataSource={[
+              { title: 'Total Profit', value: item.totalProfit },
+              { title: 'Asset Amount', value: item.amount },
+              { title: 'Difference', value: item.growPrecent },
+            ]}
             renderItem={(item) => (
               <List.Item>
-                <Typography.Text mark>[ITEM]</Typography.Text> {item}
+                <span>{item.title}</span>
+                <span>{item.value.toString()}</span>
               </List.Item>
             )}
           />
