@@ -23,7 +23,7 @@ const siderStyle: React.CSSProperties = {
 };
 
 export const AppSider = () => {
-  const { loading, assets }: any = useContext(CryptoContext);
+  const { loading, assets }: { loading: boolean, assets: Array<CardAssetType> }  = useContext(CryptoContext);
   if(loading) {
     return <Spin fullscreen />;
   }
