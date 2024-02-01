@@ -3,16 +3,19 @@ import { Layout } from 'antd';
 import { AppHeader } from './components/layout/AppHeader';
 import { AppSider } from './components/layout/AppSider';
 import { AppContant } from './components/layout/AppContent';
+import { CryptoContextProvider } from './context/crypto-context';
 
 function App() {
   return (
-    <Layout>
-      <AppHeader />
+    <CryptoContextProvider>
       <Layout>
-        <AppSider />
-        <AppContant />
+        <AppHeader />
+        <Layout>
+          <AppSider />
+          <AppContant />
+        </Layout>
       </Layout>
-    </Layout>
+    </CryptoContextProvider>
   );
 }
 

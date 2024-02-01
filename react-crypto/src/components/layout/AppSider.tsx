@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { Layout, Card, Statistic, List, Typography, Spin } from 'antd';
+import React, { useContext } from 'react';
+import { Layout, Card, Statistic, List, Typography, Spin, Tag } from 'antd';
 import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
-import { fakeFetchCryptoAssets, fakeFetchCryptoData } from '../../api';
-import { ItemType, AssetItemType } from '../../constants/constants';
-import { precentDifference } from '../../utils';
+import { capitalize } from '../../utils';
+import { CryptoContext } from '../../context/crypto-context';
 
 type CardAssetType = {
   grow: number,
@@ -24,33 +23,7 @@ const siderStyle: React.CSSProperties = {
 };
 
 export const AppSider = () => {
-  const [loading, setLoading] = useState<boolean>(false);
-  const [crypto, setCrypto] = useState([]);
-  const [assets, setAssets] = useState([]);
-  useEffect(() => {
-    async function prelode() {
-      setLoading(true);
-      const { result }: any = await fakeFetchCryptoData();
-      const assets: any = await fakeFetchCryptoAssets(); 
-      setAssets(assets.map((item: AssetItemType) => {
-        const coin = result.find((c: ItemType) => c.id === item.id);
-        return {
-          grow: item.price < coin.price,
-          growPrecent: precentDifference(item.price, coin.price),
-          totalAnount: item.amount * coin.price,
-          totalProfit: item.amount * coin.price - item.amount * item.price,
-          id: item.id,
-          amount: item.amount,
-          price: item.price,
-          date: new Date(),
-        };
-      }));
-      setCrypto(result);
-      setLoading(false);
-    }
-    prelode();
-  }, []);
-
+  const { loading, assets }: any = useContext(CryptoContext);
   if(loading) {
     return <Spin fullscreen />;
   }
@@ -59,7 +32,7 @@ export const AppSider = () => {
       {assets.map((asset: CardAssetType) => (
         <Card key={asset.id} style={{marginBottom: '1rem'}}>
           <Statistic
-            title={asset.id}
+            title={capitalize(asset.id)}
             value={asset.totalAnount}
             precision={2}
             valueStyle={{ color: asset.grow ? '#3f8600' : '#cf1322' }}
@@ -70,15 +43,18 @@ export const AppSider = () => {
             size='small'
             bordered
             dataSource={[
-              { title: 'Total Profit', value: asset.totalProfit },
+              { title: 'Total Profit', value: asset.totalProfit, withTag: true },
               { title: 'Asset Amount', value: asset.amount, isPlant: true },
               { title: 'Difference', value: asset.growPrecent },
             ]}
             renderItem={(item) => (
               <List.Item>
                 <span>{item.title}</span>
-                {item.isPlant && <span>{Number(item.value)}</span>}
-                {!item.isPlant && <Typography.Text type={asset.grow ? 'success' : 'danger'}>{Number(item.value).toFixed(2)}</Typography.Text>}
+                <span>
+                  {item.withTag && <Tag color={asset.grow ? 'green' : 'red'}>{asset.growPrecent.toString()}%</Tag>}
+                  {item.isPlant && Number(item.value)}
+                  {!item.isPlant && <Typography.Text type={asset.grow ? 'success' : 'danger'}>{Number(item.value).toFixed(2)}$</Typography.Text>}
+                </span>
               </List.Item>
             )}
           />
