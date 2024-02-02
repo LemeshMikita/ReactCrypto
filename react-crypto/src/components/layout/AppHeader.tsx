@@ -1,38 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Layout, Select, Space, Button } from 'antd';
+import { Layout, Select, Space, Button, Modal } from 'antd';
 import { useCrypto } from '../../context/crypto-context';
-
-const handleChange = (value: string[]) => {
-  console.log(`selected ${value}`);
-};
-
-const options: any = [
-  {
-    label: 'China',
-    value: 'china',
-    emoji: '🇨🇳',
-    desc: 'China (中国)',
-  },
-  {
-    label: 'USA',
-    value: 'usa',
-    emoji: '🇺🇸',
-    desc: 'USA (美国)',
-  },
-  {
-    label: 'Japan',
-    value: 'japan',
-    emoji: '🇯🇵',
-    desc: 'Japan (日本)',
-  },
-  {
-    label: 'Korea',
-    value: 'korea',
-    emoji: '🇰🇷',
-    desc: 'Korea (韩国)',
-  },
-];
-
 
 const headerStyle: React.CSSProperties = {
   width: '100%',
@@ -46,7 +14,15 @@ const headerStyle: React.CSSProperties = {
 };
 export const AppHeader = () => {
   const [select, setSelect] = useState(false);
+  const [modal, setModal] = useState(false);
   const { crypto }: any = useCrypto();
+  const handleOk = () => {
+    setModal(false);
+  };
+
+  const handleCancel = () => {
+    setModal(false);
+  };
   useEffect(() => {
     const keypress = (event: any) => {
       if(event.key === '/') {
@@ -58,7 +34,7 @@ export const AppHeader = () => {
   }, []);
 
   const handleSelect = () => {
-
+    setModal(true);
   }
   return <Layout.Header style={headerStyle}>
     <Select 
@@ -67,6 +43,7 @@ export const AppHeader = () => {
       value={['press / to open']}
       open={select}
       onSelect={handleSelect}
+      onClick={() => setSelect((prev) => !prev)}
       optionLabelProp='label'
       options={crypto.map((coin: any) => ({
         label: coin.name,
@@ -79,5 +56,10 @@ export const AppHeader = () => {
         </Space>
       )}/>
     <Button type='primary'>Add asset</Button>
+    <Modal open={modal} onCancel={handleCancel}>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+      </Modal>
   </Layout.Header>;
 };
