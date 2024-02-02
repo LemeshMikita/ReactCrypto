@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Layout, Select, Space, Button } from 'antd';
 import { useCrypto } from '../../context/crypto-context';
 
@@ -45,12 +45,28 @@ const headerStyle: React.CSSProperties = {
   backgroundColor: 'white'
 };
 export const AppHeader = () => {
+  const [select, setSelect] = useState(false);
   const { crypto }: any = useCrypto();
+  useEffect(() => {
+    const keypress = (event: any) => {
+      if(event.key === '/') {
+        setSelect(true);
+      }
+    } 
+    document.addEventListener('keypress', keypress);
+    return () =>  document.removeEventListener('keypress', keypress);
+  }, []);
+
+  const handleSelect = () => {
+
+  }
   return <Layout.Header style={headerStyle}>
     <Select 
       mode='multiple'
       style={{ width: 250 }}
       value={['press / to open']}
+      open={select}
+      onSelect={handleSelect}
       optionLabelProp='label'
       options={crypto.map((coin: any) => ({
         label: coin.name,
