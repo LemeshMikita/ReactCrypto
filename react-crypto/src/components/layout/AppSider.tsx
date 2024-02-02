@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Layout, Card, Statistic, List, Typography, Spin, Tag } from 'antd';
+import { Layout, Card, Statistic, List, Typography, Tag } from 'antd';
 import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
 import { capitalize } from '../../utils';
 import { CryptoContext } from '../../context/crypto-context';
@@ -23,10 +23,8 @@ const siderStyle: React.CSSProperties = {
 };
 
 export const AppSider = () => {
-  const { loading, assets }: { loading: boolean, assets: Array<CardAssetType> }  = useContext(CryptoContext);
-  if(loading) {
-    return <Spin fullscreen />;
-  }
+  const { assets }: { assets: Array<CardAssetType> }  = useContext(CryptoContext);
+
   return (
     <Layout.Sider width='25%' style={siderStyle}>
       {assets.map((asset: CardAssetType) => (
