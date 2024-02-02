@@ -1,4 +1,4 @@
-import React, { useEffect, useState, createContext } from 'react';
+import React, { useEffect, useState, createContext, useContext } from 'react';
 import { fakeFetchCryptoAssets, fakeFetchCryptoData } from '../api';
 import { AssetItemType, ItemType } from '../constants/constants';
 import { precentDifference } from '../utils';
@@ -36,5 +36,13 @@ export const CryptoContextProvider = ({ children }: any) => {
     }
     prelode();
   }, []);
-  return <CryptoContext.Provider value={{loading, crypto, assets}}>{children}</CryptoContext.Provider>;
+  return (
+<CryptoContext.Provider value={{loading, crypto, assets}}>
+  {children}
+  </CryptoContext.Provider>
+  ) ;
 };
+
+export const useCrypto = () => {
+  return useContext(CryptoContext);
+}
