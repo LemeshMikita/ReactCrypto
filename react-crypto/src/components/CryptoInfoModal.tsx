@@ -16,6 +16,10 @@ export const CoinInfoModal = ({ coin }: any) => {
         <Typography.Text strong>1 weak: </Typography.Text>
         <Tag color={coin.priceChange1w > 0 ? 'green' : 'red'}>{coin.priceChange1w}%</Tag>
       </Typography.Paragraph>
+      <Typography.Paragraph>
+        <Typography.Text strong>Price: </Typography.Text>
+        {coin.price}$
+      </Typography.Paragraph>
     </>
   );
 };
