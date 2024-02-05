@@ -37,12 +37,12 @@ export const CryptoContextProvider = ({ children }: any) => {
     prelode();
   }, []);
   return (
-<CryptoContext.Provider value={{loading, crypto, assets}}>
-  {children}
-  </CryptoContext.Provider>
+    <CryptoContext.Provider value={{loading, crypto, assets}}>
+      {children}
+    </CryptoContext.Provider>
   ) ;
 };
 
 export const useCrypto = () => {
   return useContext(CryptoContext);
-}
+};

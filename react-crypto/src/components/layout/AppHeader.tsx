@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Layout, Select, Space, Button, Modal } from 'antd';
 import { useCrypto } from '../../context/crypto-context';
+import { CoinInfoModal } from '../CryptoInfoModal';
 
 const headerStyle: React.CSSProperties = {
   width: '100%',
@@ -15,11 +16,8 @@ const headerStyle: React.CSSProperties = {
 export const AppHeader = () => {
   const [select, setSelect] = useState(false);
   const [modal, setModal] = useState(false);
+  const [coin, setCoin] = useState(null);
   const { crypto }: any = useCrypto();
-  const handleOk = () => {
-    setModal(false);
-  };
-
   const handleCancel = () => {
     setModal(false);
   };
@@ -28,19 +26,21 @@ export const AppHeader = () => {
       if(event.key === '/') {
         setSelect(true);
       }
-    } 
+    }; 
     document.addEventListener('keypress', keypress);
     return () =>  document.removeEventListener('keypress', keypress);
   }, []);
 
-  const handleSelect = () => {
+  const handleSelect = (value: string) => {
+    console.log(value);
+    setCoin(crypto.find((c: any) => c.id === value));
     setModal(true);
-  }
+  };
   return <Layout.Header style={headerStyle}>
     <Select 
       mode='multiple'
       style={{ width: 250 }}
-      value={['press / to open']}
+      value={'press / to open'}
       open={select}
       onSelect={handleSelect}
       onClick={() => setSelect((prev) => !prev)}
@@ -56,10 +56,8 @@ export const AppHeader = () => {
         </Space>
       )}/>
     <Button type='primary'>Add asset</Button>
-    <Modal open={modal} onCancel={handleCancel}>
-        <p>Some contents...</p>
-        <p>Some contents...</p>
-        <p>Some contents...</p>
-      </Modal>
+    <Modal open={modal} onCancel={handleCancel} footer={null}>
+      <CoinInfoModal coin={coin} />
+    </Modal>
   </Layout.Header>;
 };
