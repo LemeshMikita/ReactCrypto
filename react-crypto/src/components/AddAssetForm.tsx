@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Select, Space, Typography, Flex, Divider, Form, DatePicker, Button, InputNumber } from 'antd';
+import { Select, Space, Typography, Flex, Divider, Form, DatePicker, Button, InputNumber, Result } from 'antd';
 import { useCrypto } from '../context/crypto-context';
 
 const validateMessages = {
@@ -12,17 +12,16 @@ const validateMessages = {
   }
 };
 
-export const AddAssetForm = () => {
+export const AddAssetForm = ({ onClose }: any) => {
   const [form] = Form.useForm();
   const { crypto }: any = useCrypto();
+  const [submitted, setSubmitted] = useState(false);
   const [coin, setCoin]: any = useState(null);
 
   if(!coin) {
     return (
       <Select 
-
         style={{ width: '100%' }}
-  
         onSelect={(v) => setCoin(crypto.find((c: any) => c.id === v))}
         optionLabelProp='Select Coin'
         options={crypto.map((coin: any) => ({
@@ -37,9 +36,25 @@ export const AddAssetForm = () => {
         )}/>
     );
   }
-  const onFinish = (values: any) => {
-    console.log('Success:', values);
+  const onFinish = () => {
+    setSubmitted(true);
   };
+
+  if(submitted) {
+    return (
+      <Result
+        status='success'
+        title='New Asset Added'
+        subTitle={`Added ${42} of ${coin.name} by price ${24}`}
+        extra={[
+          <Button type='primary' key='console' onClick={onClose}>
+        Go Console
+          </Button>,
+          <Button key='buy'>Buy Again</Button>,
+        ]}
+      />
+    );
+  }
 
   const handleAmount = (value: any) => {
     form.setFieldsValue({
